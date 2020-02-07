@@ -6,13 +6,38 @@ This is simple REST API to play Hangman game
 [![build](https://github.com/unmade/hangman/workflows/Deploy/badge.svg)](https://github.com/unmade/hangman/blob/master/.github/workflows/deploy.yml)
 [![codecov](https://codecov.io/gh/unmade/hangman/branch/master/graph/badge.svg)](https://codecov.io/gh/unmade/hangman)
 
+## Configuration
+
+App can be configured with environment variables
+
+### App
+
+|Name     | Required | Default | Description|
+|:--------|:-------- |:------- |:-----------|
+|APP_NAME           | - | Hangman | Specifies name app version. |
+|APP_VERSION        | - | -       | Specifies app version |
+|APP_DEBUG          | - | False   | Whether to run app in debug mode |
+
+### Databases
+
+|Name     | Required | Default | Description|
+|:--------|:-------- |:------- |:-----------|
+|DATABASES_DSN | + | - | Database DSN. Examples: `sqlite:///./test.db`, `postgresql://user:password@host:port/name` |
+
+### Game
+
+|Name     | Required | Default | Description|
+|:--------|:-------- |:------- |:-----------|
+|HANGMAN_WORDS | - | "3dhubs,marvin,print,filament,order,layer"] | String of comma-separated words to use in the game |
+|HANGMAN_MAX_ATTEMPTS | - | 5 | Specifies how much times user can ask letters that don't exist |
+
 ## Documentation
 
 Check out interactive documentation [here](https://apihangman.herokuapp.com/docs)
 
-# Development
+## Development
 
-## Running locally
+### Running locally
 
 Create a new virtual environment:
 
@@ -44,7 +69,7 @@ Run the app:
 uvicorn app.main:app --reload
 ```
 
-## Testing
+### Testing
 
 To run test just type:
 
@@ -52,16 +77,14 @@ To run test just type:
 pytest --cov
 ```
 
-## Running in Docker
-
-## Docker
+### Running in Docker
 
 ```bash
 docker build . -t "${IMAGE_NAME}"
 docker run --rm --env DATABASE_DSN=${DATABASE_DSN} -p 8000:80 "${IMAGE_NAME}"
 ```
 
-## Adding new requirements
+### Adding new requirements
 
 This project relies on [pip-tools](https://github.com/jazzband/pip-tools) to manage requirements.
 To add a new one update one of the *.in files in [requirements](requirements) directory,
