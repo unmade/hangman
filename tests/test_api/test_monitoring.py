@@ -15,7 +15,8 @@ def test_ping_db(client: TestClient):
 
 
 def test_status_when_db_fails(client: TestClient):
-    side_effect = SQLAlchemyError(code="e3q8")  # OperationalError
+    operational_error_code = "e3q8"
+    side_effect = SQLAlchemyError(code=operational_error_code)  # type: ignore
     with mock.patch("app.db.ping_db", side_effect=side_effect) as ping_db_mock:
         response = client.get("/api/ping/db")
     assert response.json() == {"status": "ERROR"}

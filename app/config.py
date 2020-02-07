@@ -14,3 +14,5 @@ APP_VERSION = os.getenv("APP_VERSION")
 APP_DEBUG = _get_bool("APP_DEBUG")
 
 DATABASE_DSN = os.getenv("DATABASE_DSN")
+
+ALLOWED_WORDS = ["3dhubs", "marvin", "print", "filament", "order", "layer"]
