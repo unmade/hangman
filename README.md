@@ -4,6 +4,7 @@ This is simple REST API to play Hangman game
 
 [![build](https://github.com/unmade/hangman/workflows/Lint%20and%20Test/badge.svg)](https://github.com/unmade/hangman/blob/master/.github/workflows/lint-and-test.yml)
 [![build](https://github.com/unmade/hangman/workflows/Deploy/badge.svg)](https://github.com/unmade/hangman/blob/master/.github/workflows/deploy.yml)
+[![codecov](https://codecov.io/gh/unmade/hangman/branch/master/graph/badge.svg)](https://codecov.io/gh/unmade/hangman)
 
 ## Documentation
 
