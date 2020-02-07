@@ -1,0 +1,6 @@
+-c base.txt
+
+pre-commit
+pytest
+mypy
+requests
