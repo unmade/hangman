@@ -16,9 +16,9 @@ class GameConfig(BaseModel):
         ),
     )
     max_attempts: int = Field(
-        5,
+        config.HANGMAN_MAX_ATTEMPTS,
         title="Number of attempts",
-        description="How much user can ask letters that don't exist",
+        description="Specifies how much user can ask letters that don't exist",
         gt=0,
     )
 
