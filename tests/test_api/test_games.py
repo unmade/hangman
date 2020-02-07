@@ -99,3 +99,23 @@ def test_guess_letter_incorrect_game_over(client: TestClient, hangman_factory):
     response = client.put(f"/api/game/{hangman.game_uid}", json={"word_or_letter": "a"})
     assert response.json()["detail"] == "Game Over"
     assert response.status_code == 400
+
+
+def test_get_game(client: TestClient, hangman_factory):
+    hangman = hangman_factory(word="order")
+    response = client.get(f"/api/game/{hangman.game_uid}")
+    assert response.json() == {
+        "game_uid": str(hangman.game_uid),
+        "letters": ["_", "_", "_", "_", "_"],
+        "lives": 5,
+        "score": 0,
+        "completed": False,
+    }
+    assert response.status_code == 200
+
+
+def test_get_non_existing_game(client: TestClient):
+    game_uid = uuid.uuid4()
+    response = client.get(f"/api/game/{game_uid}")
+    assert response.json()["detail"] == f"Game with '{game_uid}' not found."
+    assert response.status_code == 404
