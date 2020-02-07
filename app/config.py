@@ -12,3 +12,5 @@ APP_NAME = os.getenv("APP_NAME", "Hangman")
 APP_VERSION = os.getenv("APP_VERSION")
 
 APP_DEBUG = _get_bool("APP_DEBUG")
+
+DATABASE_DSN = os.getenv("DATABASE_DSN")
