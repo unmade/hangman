@@ -28,8 +28,15 @@ App can be configured with environment variables
 
 |Name     | Required | Default | Description|
 |:--------|:-------- |:------- |:-----------|
-|HANGMAN_WORDS | - | "3dhubs,marvin,print,filament,order,layer"] | String of comma-separated words to use in the game |
+|HANGMAN_WORDS | - | "3dhubs,marvin,print,filament,order,layer" | String of comma-separated words to use in the game |
 |HANGMAN_MAX_ATTEMPTS | - | 5 | Specifies how much times user can ask letters that don't exist |
+
+### Sentry
+
+|Name     | Required | Default | Description|
+|:--------|:-------- |:------- |:-----------|
+|SENTRY_DSN | - | - | Sentry DSN |
+
 
 ## Documentation
 

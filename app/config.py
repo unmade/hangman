@@ -31,3 +31,5 @@ HANGMAN_WORDS = _get_list(
     default=["3dhubs", "marvin", "print", "filament", "order", "layer"],
 )
 HANGMAN_MAX_ATTEMPTS = int(os.getenv("HANGMAN_MAX_ATTEMPTS", "5"))
+
+SENTRY_DSN = os.getenv("SENTRY_DSN")
