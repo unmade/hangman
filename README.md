@@ -81,7 +81,7 @@ uvicorn app.main:app --reload
 To run test just type:
 
 ```bash
-pytest --cov
+DATABASE_DSN=sqlite:// pytest --cov
 ```
 
 ### Running in Docker
