@@ -1,0 +1,70 @@
+name: Lint and Test
+
+on:
+    push:
+      branches:
+        - master
+      tags:
+        - '[0-2].[0-9]+.[0-9]+*'
+    pull_request:
+      branches:
+        - '**'
+
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11.6
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+        - 5432/tcp
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements/**.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Cache pre-commit dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/pre-commit
+        key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/.pre-commit-config.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pre-commit-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install \
+          -r requirements/base.txt \
+          -r requirements/test.txt
+
+    - name: Run Linters
+      run: |
+        pre-commit run --all-files
+
+    - name: Run Tests
+      env:
+        DATABASE_DSN: "postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres"
+        PYTHONPATH: .
+      run: |
+        alembic upgrade head
+        pytest --cov

@@ -15,7 +15,7 @@ class Game(Base):
     __tablename__ = "game"
 
     id = Column(Integer, primary_key=True, index=True)
-    game_uid = Column(String(32), unique=True, default=generate_uuid)
+    game_uid = Column(String(36), unique=True, default=generate_uuid)
     word = Column(String, nullable=False)
     known_letters = Column(String, default="", nullable=False)
     score = Column(Integer, default=0, nullable=False)
