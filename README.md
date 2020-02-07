@@ -21,7 +21,6 @@ Install pre-commit hooks:
 pre-commit install
 ```
 
-
 Run the app:
 
 ```bash

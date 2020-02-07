@@ -1,6 +1,7 @@
 -c base.txt
 
+mypy
 pre-commit
 pytest
-mypy
+pytest-cov
 requests

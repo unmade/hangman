@@ -9,6 +9,7 @@ attrs==19.3.0             # via pytest
 certifi==2019.11.28       # via requests
 cfgv==2.0.1               # via pre-commit
 chardet==3.0.4            # via requests
+coverage==5.0.3           # via pytest-cov
 identify==1.4.11          # via pre-commit
 idna==2.8                 # via requests
 more-itertools==8.2.0     # via pytest
@@ -20,6 +21,7 @@ pluggy==0.13.1            # via pytest
 pre-commit==2.0.1
 py==1.8.1                 # via pytest
 pyparsing==2.4.6          # via packaging
+pytest-cov==2.8.1
 pytest==5.3.5
 pyyaml==5.3               # via aspy.yaml, pre-commit
 requests==2.22.0
