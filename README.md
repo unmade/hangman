@@ -14,8 +14,8 @@ App can be configured with environment variables
 
 |Name     | Required | Default | Description|
 |:--------|:-------- |:------- |:-----------|
-|APP_NAME           | - | Hangman | Specifies name app version. |
-|APP_VERSION        | - | -       | Specifies app version |
+|APP_NAME           | - | Hangman | Specifies app name |
+|APP_VERSION        | - | -       | Specifies app version. This env is set during build |
 |APP_DEBUG          | - | False   | Whether to run app in debug mode |
 
 ### Databases
