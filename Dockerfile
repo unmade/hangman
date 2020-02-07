@@ -8,6 +8,9 @@ RUN apk add --no-cache --virtual .build-deps gcc libc-dev make postgresql-dev \
     && pip install -r requirements/base.txt -r requirements/prod.txt \
     && apk del .build-deps gcc libc-dev make postgresql-dev
 
+ARG app_version
+ENV APP_VERSION=$app_version
+
 ENV HOME_DIR /usr/src/hangman
 ENV PYTHONPATH=${HOME_DIR}
 
