@@ -20,7 +20,7 @@ def upgrade():
     op.create_table(
         "game",
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("game_uid", sa.String(length=32), nullable=True),
+        sa.Column("game_uid", sa.String(length=36), nullable=True),
         sa.Column("word", sa.String(), nullable=False),
         sa.Column("known_letters", sa.String(), nullable=False),
         sa.Column("score", sa.Integer(), nullable=False),
