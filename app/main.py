@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from . import config, monitoring
+from . import api, config
 
 
 def create_app():
@@ -9,12 +9,8 @@ def create_app():
         version=config.APP_VERSION or "0.1.0",
         debug=config.APP_DEBUG,
     )
-    include_routes(app)
+    app.include_router(api.router, prefix="/api")
     return app
-
-
-def include_routes(app: FastAPI) -> None:
-    app.include_router(monitoring.router, prefix="/api", tags=["monitoring"])
 
 
 app = create_app()
