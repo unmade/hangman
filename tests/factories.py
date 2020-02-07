@@ -7,7 +7,7 @@ from app.db.game import Game
 
 class HangmanFactory(factory.alchemy.SQLAlchemyModelFactory):
     game_uid = factory.Faker("uuid4")
-    word = fuzzy.FuzzyChoice(config.ALLOWED_WORDS)
+    word = fuzzy.FuzzyChoice(config.HANGMAN_WORDS)
     known_letters = ""
     attempt_count = 0
     max_attempts = 5

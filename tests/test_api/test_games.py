@@ -24,6 +24,12 @@ def test_start_game_with_invalid_word(client: TestClient):
     assert response.status_code == 422
 
 
+def test_start_game_with_defaults(client: TestClient):
+    response = client.post("/api/game", json={})
+    assert response.json()["lives"] == 5
+    assert response.status_code == 201
+
+
 def test_guess_letter(client: TestClient, hangman_factory):
     hangman = hangman_factory(word="order")
     response = client.put(f"/api/game/{hangman.game_uid}", json={"word_or_letter": "r"})

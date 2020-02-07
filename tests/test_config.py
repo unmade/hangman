@@ -20,3 +20,20 @@ def test_get_bool(given, expected):
     with mock.patch("os.getenv", return_value=given):
         value = config._get_bool("DEBUG")
     assert value == expected
+
+
+@pytest.mark.parametrize(
+    ["given", "default", "expected"],
+    [
+        (None, None, []),
+        (None, ["default"], ["default"]),
+        ("item1,item2", None, ["item1", "item2"]),
+        ("item1,item2", ["default"], ["item1", "item2"]),
+        ("item1 ,item2", None, ["item1 ", "item2"]),
+        ("item1", None, ["item1"]),
+    ],
+)
+def test_get_list(given, default, expected):
+    with mock.patch("os.getenv", return_value=given):
+        value = config._get_list("WORDS", default=default)
+    assert value == expected
