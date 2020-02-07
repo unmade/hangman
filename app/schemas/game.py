@@ -1,4 +1,5 @@
-from typing import List
+import random
+from typing import List, Optional
 
 from pydantic import UUID4, BaseModel, validator
 
@@ -6,13 +7,20 @@ from app import config
 
 
 class GameConfig(BaseModel):
-    word: str
-    max_attempts: int
+    word: Optional[str] = None
+    max_attempts: int = config.HANGMAN_MAX_ATTEMPTS
+
+    @validator("word", pre=True, always=True)
+    def choose_random_word_if_not_provided(cls, v):
+        if v is None:
+            return random.choice(config.HANGMAN_WORDS)
+        return v
 
     @validator("word")
     def check_word_allowance(cls, v):
-        if v not in config.ALLOWED_WORDS:
-            msg = f"'{v}' is not a valid choice. Must be one of: {config.ALLOWED_WORDS}"
+        words = config.HANGMAN_WORDS
+        if v not in words:
+            msg = f"'{v}' is not a valid choice. Must be one of: {words}"
             raise ValueError(msg)
         return v
 
