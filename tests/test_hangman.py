@@ -1,6 +1,6 @@
 import pytest
 
-from app.hangman import GameOver, Hangman, WrongGuess
+from app.hangman import Hangman, NoLives, WrongGuess
 
 
 def test_hangman_string_representation():
@@ -87,7 +87,7 @@ def test_hangman_guess_wrong_letter_and_game_over():
     hangman = Hangman("order", attempt_count=4)
     assert hangman.attempt_count == 4
 
-    with pytest.raises(GameOver):
+    with pytest.raises(NoLives):
         hangman.guess("a")
 
     assert hangman.attempt_count == 5

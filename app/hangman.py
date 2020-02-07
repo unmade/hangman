@@ -11,7 +11,11 @@ class WrongGuess(HangmanError):
     pass
 
 
-class GameOver(HangmanError):
+class NoLives(HangmanError):
+    pass
+
+
+class Completed(HangmanError):
     pass
 
 
@@ -46,10 +50,12 @@ class Hangman:
         return self.lives < 1
 
     def guess(self, word_or_letter: str) -> str:
+        if self.completed:
+            raise Completed
         if word_or_letter in self.word:
             self.known_letters.update(iter(word_or_letter))
             return str(self)
         self.attempt_count += 1
         if self.is_game_over():
-            raise GameOver
+            raise NoLives
         raise WrongGuess

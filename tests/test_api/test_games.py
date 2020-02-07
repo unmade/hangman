@@ -101,6 +101,13 @@ def test_guess_letter_incorrect_game_over(client: TestClient, hangman_factory):
     assert response.status_code == 400
 
 
+def test_guess_letter_game_complete(client: TestClient, hangman_factory):
+    hangman = hangman_factory(word="order", known_letters="orde")
+    response = client.put(f"/api/game/{hangman.game_uid}", json={"word_or_letter": "a"})
+    assert response.json()["detail"] == "Game Completed"
+    assert response.status_code == 400
+
+
 def test_get_game(client: TestClient, hangman_factory):
     hangman = hangman_factory(word="order")
     response = client.get(f"/api/game/{hangman.game_uid}")

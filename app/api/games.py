@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import APIRouter, HTTPException
 
 from app import crud, db
-from app.hangman import GameOver, Hangman, WrongGuess
+from app.hangman import Completed, Hangman, NoLives, WrongGuess
 from app.schemas.game import Game, GameConfig, Guess
 
 router = APIRouter()
@@ -32,14 +32,16 @@ def guess_word_or_letter(game_uid: UUID, guess: Guess):
         game = crud.games.get(db_session, game_uid)
 
     if game is None:
-        raise GameNotFound(game_uid)
+        raise GameNotFound(game_uid) from None
 
     hangman = game.load()
 
     try:
         hangman.guess(guess.word_or_letter)
-    except GameOver as exc:
+    except NoLives as exc:
         raise HTTPException(status_code=400, detail="Game Over") from exc
+    except Completed as exc:
+        raise HTTPException(status_code=400, detail="Game Completed") from exc
     except WrongGuess:
         pass
     finally:
@@ -55,5 +57,5 @@ def get_game(game_uid: UUID):
     with db.SessionManager() as db_session:
         game = crud.games.get(db_session, game_uid)
     if game is None:
-        raise GameNotFound(game_uid)
+        raise GameNotFound(game_uid) from None
     return Game.from_hangman(game.load())
