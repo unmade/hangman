@@ -23,3 +23,17 @@ class Game(BaseModel):
     lives: int
     score: int
     completed: bool
+
+    @classmethod
+    def from_hangman(cls, hangman):
+        return cls(
+            game_uid=hangman.uid,
+            letters=list(hangman),
+            lives=hangman.lives,
+            score=hangman.score,
+            completed=hangman.completed,
+        )
+
+
+class Guess(BaseModel):
+    word_or_letter: str

@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Iterator, Set
+from uuid import UUID, uuid4
 
 
 class HangmanError(Exception):
@@ -17,6 +18,7 @@ class GameOver(HangmanError):
 @dataclass
 class Hangman:
     word: str
+    uid: UUID = field(default_factory=uuid4)
     max_attempts: int = 5
     attempt_count: int = 0
     known_letters: Set[str] = field(default_factory=set)
