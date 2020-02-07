@@ -1,14 +1,26 @@
 import random
 from typing import List, Optional
 
-from pydantic import UUID4, BaseModel, validator
+from pydantic import UUID4, BaseModel, Field, validator
 
 from app import config
 
 
 class GameConfig(BaseModel):
-    word: Optional[str] = None
-    max_attempts: int = config.HANGMAN_MAX_ATTEMPTS
+    word: Optional[str] = Field(
+        None,
+        title="The word",
+        description=(
+            "The word to guess. "
+            f"If not provided will be chosen randomly from {config.HANGMAN_WORDS}"
+        ),
+    )
+    max_attempts: int = Field(
+        5,
+        title="Number of attempts",
+        description="How much user can ask letters that don't exist",
+        gt=0,
+    )
 
     @validator("word", pre=True, always=True)
     def choose_random_word_if_not_provided(cls, v):

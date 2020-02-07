@@ -25,7 +25,14 @@ def start_game(game_config: GameConfig):
     return Game.from_hangman(hangman)
 
 
-@router.put("/game/{game_uid}", response_model=Game)
+@router.put(
+    "/game/{game_uid}",
+    response_model=Game,
+    responses={
+        400: {"description": "Either the Game is over or completed "},
+        404: {"description": "Can't find the Game with specified 'game_uid'"},
+    },
+)
 def guess_word_or_letter(game_uid: UUID, guess: Guess):
     """Guess letter or the whole word"""
     with db.SessionManager() as db_session:
@@ -51,7 +58,11 @@ def guess_word_or_letter(game_uid: UUID, guess: Guess):
     return Game.from_hangman(hangman)
 
 
-@router.get("/game/{game_uid}", response_model=Game)
+@router.get(
+    "/game/{game_uid}",
+    response_model=Game,
+    responses={404: {"description": "Can't find the Game with specified 'game_uid'"}},
+)
 def get_game(game_uid: UUID):
     """Returns game with specified game_uid"""
     with db.SessionManager() as db_session:
