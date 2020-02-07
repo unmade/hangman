@@ -7,7 +7,7 @@ from sqlalchemy.pool import StaticPool
 
 from app import config
 
-if config.DATABASE_DSN and "sqlite" in config.DATABASE_DSN:
+if config.DATABASE_DSN and "sqlite" in config.DATABASE_DSN:  # pragma: no cover
     kwargs = {"connect_args": {"check_same_thread": False}, "poolclass": StaticPool}
 else:  # pragma: no cover
     kwargs = {}

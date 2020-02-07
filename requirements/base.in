@@ -1,5 +1,6 @@
 alembic
 fastapi
 psycopg2-binary
+sentry-sdk
 sqlalchemy
 uvicorn
