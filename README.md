@@ -65,9 +65,17 @@ Install pre-commit hooks:
 pre-commit install
 ```
 
-Set the path to db:
+Set python path and the path to db:
+
 ```bash
+export PYTHONPATH="$(pwd)"
 export DATABASE_DSN=sqlite:///./test.db
+```
+
+Apply migrations:
+
+```bash
+alembic upgrade head
 ```
 
 Run the app:
@@ -86,9 +94,11 @@ DATABASE_DSN=sqlite:// pytest --cov
 
 ### Running in Docker
 
+Running app docker is pretty straightforward:
+
 ```bash
 docker build . -t "${IMAGE_NAME}"
-docker run --rm --env DATABASE_DSN=${DATABASE_DSN} -p 8000:80 "${IMAGE_NAME}"
+docker run --rm --env DATABASE_DSN="${DATABASE_DSN}" -p 8000:80 "${IMAGE_NAME}"
 ```
 
 ### Adding new requirements

@@ -1,8 +1,8 @@
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Body, HTTPException
 
-from app import crud, db
+from app import config, crud, db
 from app.hangman import Completed, Hangman, NoLives, WrongGuess
 from app.schemas.game import Game, GameConfig, Guess
 
@@ -17,7 +17,11 @@ class GameNotFound(HTTPException):
 
 
 @router.post("/game", status_code=201, response_model=Game)
-def start_game(game_config: GameConfig):
+def start_game(
+    game_config: GameConfig = Body(
+        ..., example={"max_attempts": config.HANGMAN_MAX_ATTEMPTS}
+    )
+):
     """Start a new game of Hangman"""
     hangman = Hangman(word=game_config.word, max_attempts=game_config.max_attempts)
     with db.SessionManager() as db_session:
