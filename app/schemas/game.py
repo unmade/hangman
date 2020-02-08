@@ -14,10 +14,11 @@ class GameConfig(BaseModel):
             "The word to guess. "
             f"If not provided will be chosen randomly from {config.HANGMAN_WORDS}"
         ),
+        min_length=3,
     )
     max_attempts: int = Field(
         config.HANGMAN_MAX_ATTEMPTS,
-        title="Number of attempts",
+        title="Total number of attempts",
         description="Specifies how much user can ask letters that don't exist",
         gt=0,
     )
@@ -56,4 +57,9 @@ class Game(BaseModel):
 
 
 class Guess(BaseModel):
-    word_or_letter: str
+    word_or_letter: str = Field(
+        ...,
+        title="Letter or the whole word",
+        description="A letter from the word or the whole word",
+        min_length=1,
+    )
