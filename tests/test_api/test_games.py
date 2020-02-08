@@ -1,10 +1,12 @@
 import uuid
 
+import pytest
 from starlette.testclient import TestClient
 
 
-def test_start_game(client: TestClient):
-    response = client.post("/api/game", json={"word": "order", "max_attempts": 5})
+@pytest.mark.parametrize("word", ["order", "OrDeR"])
+def test_start_game(client: TestClient, word):
+    response = client.post("/api/game", json={"word": word})
 
     content = response.json()
     content.pop("game_uid")
@@ -36,6 +38,18 @@ def test_guess_letter(client: TestClient, hangman_factory):
     assert response.json() == {
         "game_uid": str(hangman.game_uid),
         "letters": ["_", "r", "_", "_", "r"],
+        "lives": 5,
+        "score": 100,
+        "completed": False,
+    }
+
+
+def test_guess_letter_case_insensitive(client: TestClient, hangman_factory):
+    hangman = hangman_factory(word="oRder")
+    response = client.put(f"/api/game/{hangman.game_uid}", json={"word_or_letter": "r"})
+    assert response.json() == {
+        "game_uid": str(hangman.game_uid),
+        "letters": ["_", "R", "_", "_", "r"],
         "lives": 5,
         "score": 100,
         "completed": False,

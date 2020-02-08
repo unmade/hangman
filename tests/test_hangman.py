@@ -91,3 +91,13 @@ def test_hangman_guess_wrong_letter_and_game_over():
         hangman.guess("a")
 
     assert hangman.attempt_count == 5
+
+
+def test_hangman_guess_letter_case_insensitive():
+    hangman = Hangman("Order")
+    assert hangman.guess("o") == "O _ _ _ _"
+
+
+def test_hangman_guess_word_case_insensitive():
+    hangman = Hangman("OrDeR")
+    assert hangman.guess("order") == "O r D e R"
