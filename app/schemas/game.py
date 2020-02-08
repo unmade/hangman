@@ -32,7 +32,7 @@ class GameConfig(BaseModel):
     @validator("word")
     def check_word_allowance(cls, v):
         words = config.HANGMAN_WORDS
-        if v not in words:
+        if v.lower() not in [word.lower() for word in words]:
             msg = f"'{v}' is not a valid choice. Must be one of: {words}"
             raise ValueError(msg)
         return v

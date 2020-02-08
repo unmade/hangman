@@ -1,19 +1,21 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Body, HTTPException
+from sqlalchemy.orm import Session
 
 from app import config, crud, db
+from app.db.game import Game as GameModel
 from app.hangman import Completed, Hangman, NoLives, WrongGuess
 from app.schemas.game import Game, GameConfig, Guess
 
 router = APIRouter()
 
 
-class GameNotFound(HTTPException):
-    def __init__(self, game_uid: UUID):
-        status_code = 404
-        detail = f"Game with '{game_uid}' not found."
-        super().__init__(status_code, detail)
+def get_game_or_404(db_session: Session, game_uid: UUID) -> GameModel:
+    game = crud.games.get(db_session, game_uid)
+    if not game:
+        raise HTTPException(404, detail=f"Game with '{game_uid}' not found.")
+    return game
 
 
 @router.post("/game", status_code=201, response_model=Game)
@@ -40,26 +42,21 @@ def start_game(
 def guess_word_or_letter(game_uid: UUID, guess: Guess):
     """Guess letter or the whole word"""
     with db.SessionManager() as db_session:
-        game = crud.games.get(db_session, game_uid)
+        game = get_game_or_404(db_session, game_uid)
+        hangman = game.load()
 
-    if game is None:
-        raise GameNotFound(game_uid) from None
-
-    hangman = game.load()
-
-    try:
-        hangman.guess(guess.word_or_letter)
-    except NoLives as exc:
-        raise HTTPException(status_code=400, detail="Game Over") from exc
-    except Completed as exc:
-        raise HTTPException(status_code=400, detail="Game Completed") from exc
-    except WrongGuess:
-        pass
-    finally:
-        with db.SessionManager() as db_session:
+        try:
+            hangman.guess(guess.word_or_letter)
+        except NoLives as exc:
+            raise HTTPException(status_code=400, detail="Game Over") from exc
+        except Completed as exc:
+            raise HTTPException(status_code=400, detail="Game Completed") from exc
+        except WrongGuess:
+            pass
+        finally:
             crud.games.update(db_session, game, hangman)
 
-    return Game.from_hangman(hangman)
+        return Game.from_hangman(hangman)
 
 
 @router.get(
@@ -70,7 +67,5 @@ def guess_word_or_letter(game_uid: UUID, guess: Guess):
 def get_game(game_uid: UUID):
     """Returns game with specified game_uid"""
     with db.SessionManager() as db_session:
-        game = crud.games.get(db_session, game_uid)
-    if game is None:
-        raise GameNotFound(game_uid) from None
+        game = get_game_or_404(db_session, game_uid)
     return Game.from_hangman(game.load())

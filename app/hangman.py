@@ -31,7 +31,10 @@ class Hangman:
         return " ".join(self)
 
     def __iter__(self) -> Iterator[str]:
-        return (letter if letter in self.known_letters else "_" for letter in self.word)
+        return (
+            letter if letter.lower() in self.known_letters else "_"
+            for letter in self.word
+        )
 
     @property
     def completed(self) -> bool:
@@ -43,7 +46,7 @@ class Hangman:
 
     @property
     def score(self) -> int:
-        word_score = len(set(self.word)) * len(self.word)
+        word_score = len(set(self.word.lower())) * len(self.word)
         return word_score * len(self.known_letters) * self.lives
 
     def is_game_over(self) -> bool:
@@ -52,7 +55,7 @@ class Hangman:
     def guess(self, word_or_letter: str) -> str:
         if self.completed:
             raise Completed
-        if word_or_letter in self.word:
+        if word_or_letter.lower() in self.word.lower():
             self.known_letters.update(iter(word_or_letter))
             return str(self)
         self.attempt_count += 1
