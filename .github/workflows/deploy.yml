@@ -20,7 +20,7 @@ jobs:
       env:
         TAG: ${{ steps.tag_name.outputs.TAG }}
       run: |
-        docker build . -t fdooch/hangman:${TAG} --build-arg app_version=$FULL_VERSION
+        docker build . -t fdooch/hangman:${TAG} --build-arg app_version=${TAG}
 
     - name: Log in to the Heroku registry
       env:
