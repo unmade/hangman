@@ -56,7 +56,7 @@ class Hangman:
         if self.completed:
             raise Completed
         if word_or_letter.lower() in self.word.lower():
-            self.known_letters.update(iter(word_or_letter))
+            self.known_letters.update(iter(word_or_letter.lower()))
             return str(self)
         self.attempt_count += 1
         if self.is_game_over():

@@ -93,9 +93,10 @@ def test_hangman_guess_wrong_letter_and_game_over():
     assert hangman.attempt_count == 5
 
 
-def test_hangman_guess_letter_case_insensitive():
+@pytest.mark.parametrize("letter", ["o", "O"])
+def test_hangman_guess_letter_case_insensitive(letter):
     hangman = Hangman("Order")
-    assert hangman.guess("o") == "O _ _ _ _"
+    assert hangman.guess(letter) == "O _ _ _ _"
 
 
 def test_hangman_guess_word_case_insensitive():
