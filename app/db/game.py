@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uuid
 from typing import Optional
 
@@ -23,7 +25,7 @@ class Game(Base):
     attempt_count = Column(Integer, default=0, nullable=False)
 
     @classmethod
-    def save(cls, hangman: Hangman, game: Optional["Game"] = None) -> "Game":
+    def save(cls, hangman: Hangman, game: Optional[Game] = None) -> Game:
         if game is None:
             game = Game(game_uid=str(hangman.uid))
         assert game.game_uid == str(hangman.uid)

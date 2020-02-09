@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import random
 from typing import List, Optional
 
@@ -19,18 +21,18 @@ class GameConfig(BaseModel):
     lives: int = Field(
         config.HANGMAN_LIVES,
         title="Total number of attempts",
-        description="How much times user can ask for letters that are not in the word",
+        description="How many times user can ask for letters that are not in the word",
         gt=0,
     )
 
     @validator("word", pre=True, always=True)
-    def choose_random_word_if_not_provided(cls, v):
+    def choose_random_word_if_not_provided(cls, v: str) -> str:
         if v is None:
             return random.choice(config.HANGMAN_WORDS)
         return v
 
     @validator("word")
-    def check_word_allowance(cls, v):
+    def check_word_allowance(cls, v: str) -> str:
         words = config.HANGMAN_WORDS
         if v.lower() not in [word.lower() for word in words]:
             msg = f"'{v}' is not a valid choice. Must be one of: {words}"
@@ -46,7 +48,7 @@ class Game(BaseModel):
     completed: bool
 
     @classmethod
-    def from_hangman(cls, hangman):
+    def from_hangman(cls, hangman) -> Game:
         return cls(
             game_uid=hangman.uid,
             letters=list(hangman),
