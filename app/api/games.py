@@ -20,12 +20,10 @@ def get_game_or_404(db_session: Session, game_uid: UUID) -> GameModel:
 
 @router.post("/game", status_code=201, response_model=Game)
 def start_game(
-    game_config: GameConfig = Body(
-        ..., example={"max_attempts": config.HANGMAN_MAX_ATTEMPTS}
-    )
+    game_config: GameConfig = Body(..., example={"lives": config.HANGMAN_LIVES})
 ):
     """Start a new game of Hangman"""
-    hangman = Hangman(word=game_config.word, max_attempts=game_config.max_attempts)
+    hangman = Hangman(word=game_config.word, max_attempts=game_config.lives)
     with db.SessionManager() as db_session:
         crud.games.create(db_session, hangman)
     return Game.from_hangman(hangman)

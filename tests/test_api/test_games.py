@@ -20,7 +20,7 @@ def test_start_game(client: TestClient, word):
 
 
 def test_start_game_with_invalid_word(client: TestClient):
-    response = client.post("/api/game", json={"word": "bad_word", "max_attempts": 5})
+    response = client.post("/api/game", json={"word": "bad_word", "lives": 5})
     assert response.json()["detail"][0]["type"] == "value_error"
     assert response.json()["detail"][0]["loc"] == ["body", "game_config", "word"]
     assert response.status_code == 422

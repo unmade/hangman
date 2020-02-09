@@ -9,7 +9,7 @@ class HangmanFactory(factory.alchemy.SQLAlchemyModelFactory):
     word = fuzzy.FuzzyChoice(config.HANGMAN_WORDS)
     known_letters = ""
     attempt_count = 0
-    max_attempts = config.HANGMAN_MAX_ATTEMPTS
+    max_attempts = config.HANGMAN_LIVES
 
     class Meta:
         model = Game
