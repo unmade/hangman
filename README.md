@@ -14,9 +14,9 @@ App can be configured with environment variables
 
 |Name     | Required | Default | Description|
 |:--------|:-------- |:------- |:-----------|
-|APP_NAME           | - | Hangman | Specifies app name |
-|APP_VERSION        | - | -       | Specifies app version. This env is set during build |
-|APP_DEBUG          | - | False   | Whether to run app in debug mode |
+|APP_NAME    | - | Hangman | Specifies app name |
+|APP_VERSION | - | -       | Specifies app version. This env is set during build |
+|APP_DEBUG   | - | False   | Whether to run app in debug mode |
 
 ### Databases
 
@@ -29,14 +29,13 @@ App can be configured with environment variables
 |Name     | Required | Default | Description|
 |:--------|:-------- |:------- |:-----------|
 |HANGMAN_WORDS | - | "3dhubs,marvin,print,filament,order,layer" | String of comma-separated words to use in the game |
-|HANGMAN_MAX_ATTEMPTS | - | 5 | Specifies how much times user can ask letters that don't exist |
+|HANGMAN_LIVES | - | 5 | Specifies how much times user can ask letters that don't exist |
 
 ### Sentry
 
 |Name     | Required | Default | Description|
 |:--------|:-------- |:------- |:-----------|
 |SENTRY_DSN | - | - | Sentry DSN |
-
 
 ## Documentation
 

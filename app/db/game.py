@@ -7,7 +7,7 @@ from app.db import Base
 from app.hangman import Hangman
 
 
-def generate_uuid() -> str:  # pragma: no cover
+def generate_uuid() -> str:
     return str(uuid.uuid4())
 
 

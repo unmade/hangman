@@ -24,12 +24,12 @@ APP_VERSION = os.getenv("APP_VERSION")
 
 APP_DEBUG = _get_bool("APP_DEBUG")
 
-DATABASE_DSN = os.getenv("DATABASE_DSN")
+DATABASE_DSN = os.environ["DATABASE_DSN"]
 
 HANGMAN_WORDS = _get_list(
     "HANGMAN_WORDS",
     default=["3dhubs", "marvin", "print", "filament", "order", "layer"],
 )
-HANGMAN_MAX_ATTEMPTS = int(os.getenv("HANGMAN_MAX_ATTEMPTS", "5"))
+HANGMAN_LIVES = int(os.getenv("HANGMAN_LIVES", "5"))
 
 SENTRY_DSN = os.getenv("SENTRY_DSN")
