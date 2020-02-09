@@ -24,7 +24,7 @@ APP_VERSION = os.getenv("APP_VERSION")
 
 APP_DEBUG = _get_bool("APP_DEBUG")
 
-DATABASE_DSN = os.getenv("DATABASE_DSN")
+DATABASE_DSN = os.environ["DATABASE_DSN"]
 
 HANGMAN_WORDS = _get_list(
     "HANGMAN_WORDS",
